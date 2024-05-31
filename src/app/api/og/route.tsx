@@ -4,10 +4,8 @@ import { ImageResponse } from "next/og";
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const transactionParam = searchParams.has("transaction");
-    const transaction = transactionParam
-      ? Number(searchParams.get("transaction"))
-      : null;
+    const subscribed = searchParams.get("subscribed") === "true" ? true : false;
+    const hasXmtp = searchParams.get("hasXmtp") === "true" ? true : false;
 
     return new ImageResponse(
       (
@@ -16,14 +14,16 @@ export async function GET(request: Request) {
             <div tw="flex flex-col md:flex-row w-full py-12 px-4 md:items-center justify-between p-8">
               <h2 tw="flex flex-col text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 text-left">
                 <span>
-                  {!transaction
-                    ? "Try Open Frames Transactions"
-                    : "Transaction Successful!"}
+                  {!subscribed
+                    ? "Subscribe to this super exciting channel!"
+                    : "You have successfully subscribed!"}
                 </span>
                 <span tw="text-indigo-600">
-                  {transaction
-                    ? `Your transaction of ${transaction} ETH is complete.`
-                    : `Click to make a transaction (0.0000032 ETH).`}
+                  {subscribed
+                    ? hasXmtp
+                      ? "Refresh your screen and messages from this channel should now appear in your main inbox."
+                      : "Looks like you're not on XMTP yet. Activate XMTP to start receiving messages from this channel."
+                    : "Click to subscribe to this channel and receive messages in your main inbox."}
                 </span>
               </h2>
             </div>

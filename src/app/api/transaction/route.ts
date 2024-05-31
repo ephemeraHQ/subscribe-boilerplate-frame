@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { parseEther } from "viem";
-import type { FrameTransactionResponse } from "@coinbase/onchainkit/frame";
+import { createConsentMessage } from "@xmtp/consent-proof-signature";
+import { getClient } from "../../utils/client";
 import { getXmtpFrameMessage } from "@coinbase/onchainkit/xmtp";
+import { FrameTransactionResponse } from "@coinbase/onchainkit/frame";
 
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   const body = await req.json();
@@ -10,14 +11,20 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     return new NextResponse("Message not valid", { status: 500 });
   }
 
+  const xmtpClient = await getClient();
+  const walletAddress = xmtpClient?.address || "";
+  const timestamp = Date.now();
+  process.env.TIMESTAMP = JSON.stringify(timestamp);
+  const message = createConsentMessage(walletAddress, timestamp);
+
   const txData: FrameTransactionResponse = {
     // Sepolia
-    chainId: `eip155:11155111`,
-    method: "eth_sendTransaction",
+    chainId: "eip155:11155111",
+    method: "eth_personalSign",
     params: {
       abi: [],
-      to: "0x194c31cAe1418D5256E8c58e0d08Aee1046C6Ed0",
-      value: parseEther("0.0000032", "wei").toString(), // 0.0000032 ETH, ~1 cent
+      to: walletAddress as `0x${string}`,
+      value: message,
     },
   };
   return NextResponse.json(txData);
