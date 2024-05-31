@@ -46,9 +46,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const xmtpClient = await getClient();
 
   const signature = body.untrustedData.transactionId;
+  const timestamp = JSON.parse(process.env.TIMESTAMP || "");
 
   // To-do: Convert this in @xmtp/frames-validator for re-use
-  const payloadBytes = createConsentProofPayload(signature, Date.now());
+  const payloadBytes = createConsentProofPayload(signature, timestamp);
   const consentProofBase64 = Buffer.from(payloadBytes).toString("base64");
   const base64ToBytes = (base64: string) => {
     const binary = atob(base64);
@@ -81,7 +82,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     undefined,
     payloadWithTimestamp
   );
-  await newConvo?.send("Thank you for being a subscriber!");
+  await newConvo?.send(
+    "Hello, this is the demo frame! Thank you for being a subscriber!"
+  );
 
   // Determine if user is on XMTP or not and return the corresponding frame
   const hasXmtp = await xmtpClient?.canMessage(body.untrustedData.address);
