@@ -11,38 +11,40 @@ const nextConfig = {
     config.plugins.push(
       new CopyPlugin({
         patterns: [
-          // For Vercel
           {
             from: path.resolve(
+              process.cwd(),
               "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
             ),
             to: path.resolve(
-              path.join(process.cwd(), ".next/server/chunks/[name][ext]")
+              process.cwd(),
+              ".next/server/vendor-chunks/[name][ext]"
             ),
           },
           {
             from: path.resolve(
+              process.cwd(),
               "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
             ),
-            to: path.resolve(".next/server/vendor-chunks/[name][ext]"),
+            to: path.resolve(process.cwd(), ".next/server/chunks/[name][ext]"),
           },
           {
             from: path.resolve(
-              "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
-            ),
-            to: path.resolve(".next/server/chunks/[name][ext]"),
-          },
-          {
-            from: path.resolve(
-              "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
-            ),
-            to: path.resolve(".next/server/app/api/transaction/[name][ext]"),
-          },
-          {
-            from: path.resolve(
+              process.cwd(),
               "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
             ),
             to: path.resolve(
+              process.cwd(),
+              ".next/server/app/api/transaction/[name][ext]"
+            ),
+          },
+          {
+            from: path.resolve(
+              process.cwd(),
+              "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
+            ),
+            to: path.resolve(
+              process.cwd(),
               ".next/server/app/api/transaction-success/[name][ext]"
             ),
           },
