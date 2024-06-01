@@ -16,7 +16,9 @@ const nextConfig = {
             from: path.resolve(
               "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
             ),
-            to: path.resolve("/var/task/.next/server/chunks/[name][ext]"),
+            to: path.resolve(
+              path.join(process.cwd(), ".next/server/chunks/[name][ext]")
+            ),
           },
           {
             from: path.resolve(
