@@ -11,6 +11,13 @@ const nextConfig = {
     config.plugins.push(
       new CopyPlugin({
         patterns: [
+          // For Vercel
+          {
+            from: path.resolve(
+              "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
+            ),
+            to: path.resolve("/var/task/.next/server/chunks/[name][ext]"),
+          },
           {
             from: path.resolve(
               "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
