@@ -22,7 +22,7 @@ const nextConfig = {
           new CopyPlugin({
             patterns: [
               {
-                to: "./vendor-chunks/[name][ext]",
+                to: "./app/[name][ext]",
                 from: "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node",
                 filter: (resourcePath) => resourcePath.endsWith(".wasm"),
               },
