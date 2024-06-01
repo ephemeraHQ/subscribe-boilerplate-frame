@@ -16,3 +16,5 @@ export const getClient = async () => {
     }
   }
 };
+
+export const client = await getClient();

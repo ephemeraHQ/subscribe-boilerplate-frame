@@ -6,6 +6,7 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     config.externals = config.externals || [];
     config.externals.push("pino-pretty", "lokijs", "encoding");
+    config.experiments = { ...config.experiments, topLevelAwait: true };
 
     if (isServer) {
       config.plugins.push(
@@ -15,7 +16,27 @@ const nextConfig = {
               from: path.resolve(
                 "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
               ),
+              to: path.resolve(".next/server/vendor-chunks/[name][ext]"),
+            },
+            {
+              from: path.resolve(
+                "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
+              ),
               to: path.resolve(".next/server/chunks/[name][ext]"),
+            },
+            {
+              from: path.resolve(
+                "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
+              ),
+              to: path.resolve(".next/server/app/api/transaction/[name][ext]"),
+            },
+            {
+              from: path.resolve(
+                "node_modules/@xmtp/user-preferences-bindings-wasm/dist/node/*.wasm"
+              ),
+              to: path.resolve(
+                ".next/server/app/api/transaction-success/[name][ext]"
+              ),
             },
           ],
         })

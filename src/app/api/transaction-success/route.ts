@@ -1,4 +1,4 @@
-import { getClient } from "../../utils/client";
+import { client } from "@/app/utils/client";
 import { getFrameHtmlResponse } from "@coinbase/onchainkit/frame";
 import { getXmtpFrameMessage } from "@coinbase/onchainkit/xmtp";
 import { createConsentProofPayload } from "@xmtp/consent-proof-signature";
@@ -43,7 +43,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   if (!isValid) {
     return new NextResponse("Message not valid", { status: 500 });
   }
-  const xmtpClient = await getClient();
+  const xmtpClient = client;
 
   const signature = body.untrustedData.transactionId;
   const timestamp = JSON.parse(process.env.TIMESTAMP || "");

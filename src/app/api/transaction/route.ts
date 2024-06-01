@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createConsentMessage } from "@xmtp/consent-proof-signature";
-import { getClient } from "../../utils/client";
 import { getXmtpFrameMessage } from "@coinbase/onchainkit/xmtp";
 import { FrameTransactionResponse } from "@coinbase/onchainkit/frame";
+import { createConsentMessage } from "@xmtp/consent-proof-signature";
+import { client } from "@/app/utils/client";
 
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   const body = await req.json();
@@ -11,8 +11,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     return new NextResponse("Message not valid", { status: 500 });
   }
 
-  const xmtpClient = await getClient();
-  const walletAddress = xmtpClient?.address || "";
+  const walletAddress = client?.address || "";
   const timestamp = Date.now();
   process.env.TIMESTAMP = JSON.stringify(timestamp);
   const message = createConsentMessage(walletAddress, timestamp);
