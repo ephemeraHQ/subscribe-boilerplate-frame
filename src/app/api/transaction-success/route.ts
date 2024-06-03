@@ -48,22 +48,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const signature = body.untrustedData.transactionId;
   const timestamp = JSON.parse(process.env.TIMESTAMP || "");
 
-  // To-do: Convert this in @xmtp/frames-validator for re-use
   const payloadBytes = createConsentProofPayload(signature, timestamp);
-  const consentProofBase64 = Buffer.from(payloadBytes).toString("base64");
-  const base64ToBytes = (base64: string) => {
-    const binary = atob(base64);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-    return bytes;
-  };
-  const consentProofUint8Array = base64ToBytes(consentProofBase64);
-
-  const consentProof = invitation.ConsentProofPayload.decode(
-    consentProofUint8Array
-  );
+  const consentProof = invitation.ConsentProofPayload.decode(payloadBytes);
 
   const payloadWithTimestamp = {
     ...consentProof,
