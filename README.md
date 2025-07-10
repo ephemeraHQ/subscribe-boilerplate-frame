@@ -1,3 +1,10 @@
+![Status](https://img.shields.io/badge/Deprecated-brown)
+
+> [!CAUTION]
+> This repository is no longer maintained.
+
+The documentation below is provided for historical reference only.
+
 ## Example Open Frames Subscribe Frame
 
 This repo provides the code for the [example Open Frames Subscribe Frame.](https://subscribe-boilerplate-frame.vercel.app/)
